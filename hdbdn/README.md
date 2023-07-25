@@ -1,2 +1,0 @@
-# simplifiedTikTok
-simplifiedTikTok
