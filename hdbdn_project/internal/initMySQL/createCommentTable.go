@@ -4,7 +4,7 @@ package initMySQL
 import (
 	"database/sql"
 	"fmt"
-	"io/ioutil"
+	"os"
 	"strings"
 	"path/filepath"
 	_ "github.com/go-sql-driver/mysql"
@@ -26,7 +26,7 @@ func CreateCommentTable() {
 
 	// 读取SQL文件内容
 	abs , _ := filepath.Abs(".")
-	content, err := ioutil.ReadFile(abs + commentTable)
+	content, err := os.ReadFile(abs + commentTable)
 	if err != nil {
 		panic(err.Error())
 	}
