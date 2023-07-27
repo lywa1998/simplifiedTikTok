@@ -1,17 +1,23 @@
-package test
+package initMySQL
+// package main
 
 import (
 	"database/sql"
 	"fmt"
 	"io/ioutil"
 	"strings"
-
+	"path/filepath"
 	_ "github.com/go-sql-driver/mysql"
 )
 
-func mainB() {
+var(
+	commentTable  string = "\\initMySQL\\CommentTable.sql"
+)
+
+func CreateCommentTable() {
 	// 连接到MySQL数据库
-	dsn := "root:hdbdn@tcp(127.0.0.1:3306)/test"
+	// dsn := "root:hdbdn@tcp(127.0.0.1:3306)/test"
+	dsn := fmt.Sprintf("%s:%s@tcp(%s:%d)/%s", username, password, host, port, Dbname)
 	db, err := sql.Open("mysql", dsn)
 	if err != nil {
 		panic(err.Error())
@@ -19,8 +25,8 @@ func mainB() {
 	defer db.Close()
 
 	// 读取SQL文件内容
-	sqlFile := "./init.sql"
-	content, err := ioutil.ReadFile(sqlFile)
+	abs , _ := filepath.Abs(".")
+	content, err := ioutil.ReadFile(abs + commentTable)
 	if err != nil {
 		panic(err.Error())
 	}
