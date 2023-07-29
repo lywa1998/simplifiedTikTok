@@ -5,7 +5,7 @@ CREATE TABLE `user` (
   `password` varchar(32) NOT NULL DEFAULT '' COMMENT 'Password', -- 用户密码
   `follow_count` bigint NOT NULL DEFAULT 0 COMMENT 'FollowCount', -- 关注总数
   `follower_count` bigint NOT NULL DEFAULT 0 COMMENT 'FollowerCount', -- 粉丝总数
-  `is_follow` boolean NOT NULL DEFAULT 1 COMMENT 'IsFollow', -- true-已关注，false-未关注
+  `is_follow` boolean NOT NULL DEFAULT true COMMENT 'IsFollow', -- true-已关注，false-未关注
   `avatar` varchar(128) NOT NULL DEFAULT '' COMMENT 'Avatar', -- 用户头像
   `background_image` varchar(128) NOT NULL DEFAULT '' COMMENT 'BackgroundImage',  -- 用户个人页顶部大图
   `signature` varchar(256) NOT NULL DEFAULT '' COMMENT 'Signature',  -- 个人简介

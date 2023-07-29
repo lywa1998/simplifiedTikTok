@@ -6,18 +6,16 @@ import (
 	"fmt"
 	"os"
 	"strings"
-	"path/filepath"
 	_ "github.com/go-sql-driver/mysql"
 )
 
 var(
-	commentTable  string = "\\initMySQL\\CommentTable.sql"
+	commentTable  string = "internal/initMySQL/CommentTable.sql"
 )
 
 func CreateCommentTable() {
 	// 连接到MySQL数据库
-	// dsn := "root:hdbdn@tcp(127.0.0.1:3306)/test"
-	dsn := fmt.Sprintf("%s:%s@tcp(%s:%d)/%s", username, password, host, port, Dbname)
+	dsn := fmt.Sprintf("%s:%s@tcp(%s:%d)/%s", mysqlConfig.Username, mysqlConfig.Password, mysqlConfig.Host, mysqlConfig.Port, mysqlConfig.DBName)
 	db, err := sql.Open("mysql", dsn)
 	if err != nil {
 		panic(err.Error())
@@ -25,8 +23,7 @@ func CreateCommentTable() {
 	defer db.Close()
 
 	// 读取SQL文件内容
-	abs , _ := filepath.Abs(".")
-	content, err := os.ReadFile(abs + commentTable)
+	content, err := os.ReadFile(commentTable)
 	if err != nil {
 		panic(err.Error())
 	}
