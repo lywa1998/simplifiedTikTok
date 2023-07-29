@@ -4,21 +4,17 @@ import (
 	"fmt"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
+	"github.com/hdbdn77/simplifiedTikTok/configs"
 )
  
 var(
-	username string = "root"
-	password string = "hdbdn"
-	host     string = "localhost"
-	port     int = 3306
-	Dbname   string = "simplifiedTikTok"
-
+	mysqlConfig = configs.MySQL
 	db *gorm.DB
 )
 
 func init() {
 	// 连接数据库
-	dsn := fmt.Sprintf("%s:%s@tcp(%s:%d)/%s", username, password, host, port, Dbname)
+	dsn := fmt.Sprintf("%s:%s@tcp(%s:%d)/%s", mysqlConfig.Username, mysqlConfig.Password, mysqlConfig.Host, mysqlConfig.Port, mysqlConfig.DBName)
 	con, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
 	if err != nil {
 		panic("无法连接数据库")

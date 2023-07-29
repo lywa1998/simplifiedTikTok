@@ -4,37 +4,13 @@ package initMySQL
 import (
 	"database/sql"
 	"fmt"
-	"os"
 	_ "github.com/go-sql-driver/mysql"
-	"gopkg.in/yaml.v2"
+	"github.com/hdbdn77/simplifiedTikTok/configs"
 )
 
 var(
-	mysqlConfig = initMySQLConfig("configs/mysql.yaml")
+	mysqlConfig = configs.MySQL
 )
-
-type MySQLConfig struct {
-	Username string `yaml:"username"`
-	Password string `yaml:"password"`
-	Host string `yaml:"host"`
-	Port int `yaml:"port"`
-	DBName string `yaml:"dbname"`
-}
-
-func initMySQLConfig(filePath string) *MySQLConfig {
-	content, err := os.ReadFile(filePath)
-	if err != nil {
-		fmt.Println("读取mysql配置文件失败")
-		return &MySQLConfig{}
-	}
-  
-	var cfg MySQLConfig
-	if err := yaml.Unmarshal(content, &cfg); err != nil {
-		fmt.Println("解析mysql配置文件失败")
-		return &MySQLConfig{}
-	}
-	return &cfg
-  }
 
 func CreateDB() {
 	if mysqlConfig.DBName == "" {
