@@ -1,16 +1,17 @@
 package initMySQL
+
 // package main
 
 import (
 	"database/sql"
 	"fmt"
+	_ "github.com/go-sql-driver/mysql"
 	"os"
 	"strings"
-	_ "github.com/go-sql-driver/mysql"
 )
 
-var(
-	commentTable  string = "internal/initMySQL/CommentTable.sql"
+var (
+	commentTable string = "internal/initMySQL/CommentTable.sql"
 )
 
 func CreateCommentTable() {

@@ -1,29 +1,29 @@
 package model
 
 import (
+	"errors"
 	"github.com/hdbdn77/simplifiedTikTok/pkg/dao"
 	"gorm.io/gorm"
-	"errors"
 )
 
 type User struct {
-    Id              int64     `gorm:"primaryKey;autoIncrement;comment:'PrimaryKey'"` 
-    Username        string    `gorm:"size:32;not null;default:'';comment:'Username'"`
-    Password        string    `gorm:"size:32;not null;default:'';comment:'Password'"`
-    FollowCount     int64     `gorm:"not null;default:0;comment:'FollowCount'"`
-    FollowerCount   int64     `gorm:"not null;default:0;comment:'FollowerCount'"`
-    IsFollow        bool      `gorm:"not null;default:true;comment:'IsFollow'"`
-    Avatar          string    `gorm:"size:128;not null;default:'';comment:'Avatar'"`
-    BackgroundImage string    `gorm:"size:128;not null;default:'';comment:'BackgroundImage'"`
-    Signature       string    `gorm:"size:256;not null;default:'';comment:'Signature'"`
-    TotalFavorited  int64     `gorm:"not null;default:0;comment:'TotalFavorited'"`
-    WorkCount       int64     `gorm:"not null;default:0;comment:'WorkCount'"`
-    FavoriteCount   int64     `gorm:"not null;default:0;comment:'FavoriteCount'"`
+	Id              int64  `gorm:"primaryKey;autoIncrement;comment:'PrimaryKey'"`
+	Username        string `gorm:"size:32;not null;default:'';comment:'Username'"`
+	Password        string `gorm:"size:32;not null;default:'';comment:'Password'"`
+	FollowCount     int64  `gorm:"not null;default:0;comment:'FollowCount'"`
+	FollowerCount   int64  `gorm:"not null;default:0;comment:'FollowerCount'"`
+	IsFollow        bool   `gorm:"not null;default:false;comment:'IsFollow'"`
+	Avatar          string `gorm:"size:128;not null;default:'';comment:'Avatar'"`
+	BackgroundImage string `gorm:"size:128;not null;default:'';comment:'BackgroundImage'"`
+	Signature       string `gorm:"size:256;not null;default:'';comment:'Signature'"`
+	TotalFavorited  int64  `gorm:"not null;default:0;comment:'TotalFavorited'"`
+	WorkCount       int64  `gorm:"not null;default:0;comment:'WorkCount'"`
+	FavoriteCount   int64  `gorm:"not null;default:0;comment:'FavoriteCount'"`
 }
 
 // 用户名索引
 func (User) TableName() string {
-    return "user" 
+	return "user"
 }
 
 func (u *User) BeforeSave(tx *gorm.DB) error {
@@ -48,7 +48,7 @@ func Register(user *User) (*User, error) {
 	return user, err
 }
 
-func Login(user *User) (*User, error){
+func FindUserByUsername(user *User) (*User, error) {
 	// 获取数据库连接
 	db := dao.GetDB()
 	// 迁移模型
@@ -57,4 +57,4 @@ func Login(user *User) (*User, error){
 	// 查询
 	err := db.Where("username = ?", user.Username).Take(&user).Error
 	return user, err
-  }
+}

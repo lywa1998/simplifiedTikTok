@@ -1,16 +1,17 @@
 package initMySQL
+
 // package main
 
 import (
 	"database/sql"
 	"fmt"
+	_ "github.com/go-sql-driver/mysql"
 	"os"
 	"strings"
-	_ "github.com/go-sql-driver/mysql"
 )
 
-var(
-	videoTable  string = "internal/initMySQL/VideoTable.sql"
+var (
+	videoTable string = "internal/initMySQL/VideoTable.sql"
 )
 
 func CreateVideoTable() {

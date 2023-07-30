@@ -1,27 +1,27 @@
 package main
 
 import (
+	_ "crypto/rand"
+	_ "crypto/rsa"
+	"fmt"
+	_ "github.com/golang-jwt/jwt/v5"
 	"github.com/hdbdn77/simplifiedTikTok/pkg/model"
 	"github.com/hdbdn77/simplifiedTikTok/pkg/utils"
-	"fmt"
-	_"github.com/golang-jwt/jwt/v5"
-	_"crypto/rsa"
-	_"crypto/rand"
 )
 
 func main() {
-	user := model.User{Username: "LPF", Password: "XYZ"}
+	user := model.User{Username: "LPF", Password: "ZYX"}
 	userA, err := model.Register(&user)
 	if err != nil {
 		fmt.Println(err)
-	}else{
+	} else {
 		fmt.Println(*userA)
 	}
 	user = model.User{Username: "LPF", Password: "zyx"}
-	userB, _ := model.Login(&model.User{Username: user.Username})
+	userB, _ := model.FindUserByUsername(&model.User{Username: user.Username})
 	if userB.Password == user.Password {
 		fmt.Println(*userB)
-	}else{
+	} else {
 		fmt.Println("Wrong password")
 	}
 

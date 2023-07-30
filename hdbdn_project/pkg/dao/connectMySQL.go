@@ -2,14 +2,14 @@ package dao
 
 import (
 	"fmt"
+	"github.com/hdbdn77/simplifiedTikTok/configs"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
-	"github.com/hdbdn77/simplifiedTikTok/configs"
 )
- 
-var(
+
+var (
 	mysqlConfig = configs.MySQL
-	db *gorm.DB
+	db          *gorm.DB
 )
 
 func init() {

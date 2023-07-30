@@ -1,16 +1,17 @@
 package initMySQL
+
 // package main
 
 import (
 	"database/sql"
 	"fmt"
+	_ "github.com/go-sql-driver/mysql"
 	"os"
 	"strings"
-	_ "github.com/go-sql-driver/mysql"
 )
 
-var(
-	favoriteTable  string = "internal/initMySQL/FavoriteTable.sql"
+var (
+	favoriteTable string = "internal/initMySQL/FavoriteTable.sql"
 )
 
 func CreateFavoriteTable() {

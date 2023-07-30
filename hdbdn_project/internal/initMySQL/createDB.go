@@ -1,4 +1,5 @@
 package initMySQL
+
 // package main
 
 import (
@@ -8,7 +9,7 @@ import (
 	"github.com/hdbdn77/simplifiedTikTok/configs"
 )
 
-var(
+var (
 	mysqlConfig = configs.MySQL
 )
 
