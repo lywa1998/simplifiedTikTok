@@ -5,7 +5,7 @@ import (
 	"log"
 	_"net"
 	"context"
-	"github.com/hdbdn77/simplifiedTikTok/pkg/service"
+	"github.com/hdbdn77/simplifiedTikTok/pkg/userService"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
 )
@@ -17,15 +17,15 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
-	registerServiceClient := service.NewRegisterServiceClient(conn)
-	loginServiceClient := service.NewLoginServiceClient(conn)
-	userServiceClient := service.NewUserServiceClient(conn)
+	registerServiceClient := userService.NewRegisterServiceClient(conn)
+	loginServiceClient := userService.NewLoginServiceClient(conn)
+	userServiceClient := userService.NewUserServiceClient(conn)
 
 	// 3. 直接像调用本地方法一样调用GetProductStock方法
-	registerResponse, _ := registerServiceClient.Register(context.Background(), &service.DouYinUserRegisterRequest{Username: "TEST", Password: "TEST"})
-	loginResponse, _ := loginServiceClient.Login(context.Background(), &service.DouYinUserLoginRequest{Username: "TEST", Password: "TEST"})
+	registerResponse, _ := registerServiceClient.Register(context.Background(), &userService.DouYinUserRegisterRequest{Username: "TEST", Password: "TEST"})
+	loginResponse, _ := loginServiceClient.Login(context.Background(), &userService.DouYinUserLoginRequest{Username: "TEST", Password: "TEST"})
 	fmt.Println("token :",loginResponse.Token)
-	userResponse, _ := userServiceClient.Find(context.Background(), &service.DouYinUserRequest{UserId: 4, Token: loginResponse.Token})
+	userResponse, _ := userServiceClient.Find(context.Background(), &userService.DouYinUserRequest{UserId: 4, Token: loginResponse.Token})
 
 	// fmt.Println("调用gRPC方法成功, StatusCode = ", resp.StatusCode)
 	fmt.Println("注册 :",registerResponse.StatusMsg)

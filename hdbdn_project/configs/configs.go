@@ -9,6 +9,7 @@ import (
 var (
 	MySQL = initMySQLConfig("configs/mysql.yaml")
 	Jwt   = initJwtConfig("configs/jwt.yaml")
+	Redis = initRedisConfig("configs/redis.yaml")
 )
 
 type MySQLConfig struct {
@@ -41,14 +42,34 @@ type JwtConfig struct {
 func initJwtConfig(filePath string) *JwtConfig {
 	content, err := os.ReadFile(filePath)
 	if err != nil {
-		fmt.Println("读取mysql配置文件失败: ", err)
+		fmt.Println("读取jwt配置文件失败: ", err)
 		return &JwtConfig{}
 	}
 
 	var cfg JwtConfig
 	if err := yaml.Unmarshal(content, &cfg); err != nil {
-		fmt.Println("解析mysql配置文件失败")
+		fmt.Println("解析jwt配置文件失败")
 		return &JwtConfig{}
+	}
+	return &cfg
+}
+
+type RedisConfig struct {
+	Addr string `yaml:"addr"`
+	Password string `yaml:"password"`
+}
+
+func initRedisConfig(filePath string) *RedisConfig {
+	content, err := os.ReadFile(filePath)
+	if err != nil {
+		fmt.Println("读取redis配置文件失败: ", err)
+		return &RedisConfig{}
+	}
+
+	var cfg RedisConfig
+	if err := yaml.Unmarshal(content, &cfg); err != nil {
+		fmt.Println("解析redis配置文件失败")
+		return &RedisConfig{}
 	}
 	return &cfg
 }

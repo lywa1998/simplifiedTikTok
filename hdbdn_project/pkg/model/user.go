@@ -2,6 +2,8 @@ package model
 
 import (
 	"errors"
+	"fmt"
+
 	"github.com/hdbdn77/simplifiedTikTok/pkg/dao"
 	"gorm.io/gorm"
 )
@@ -26,7 +28,7 @@ func (User) TableName() string {
 	return "user"
 }
 
-func (u *User) BeforeSave(tx *gorm.DB) error {
+func (u *User) BeforeCreate(tx *gorm.DB) error {
 	// 自定义Username唯一性校验
 	var count int64
 	tx.Model(u).Where("username = ?", u.Username).Count(&count)
@@ -57,4 +59,35 @@ func FindUserByUsername(user *User) (*User, error) {
 	// 查询
 	err := db.Where("username = ?", user.Username).Take(&user).Error
 	return user, err
+}
+
+func FindUserById(user *User) (*User, error) {
+	// 获取数据库连接
+	db := dao.GetDB()
+	// 迁移模型
+	db.AutoMigrate(&User{})
+
+	// 查询
+	err := db.Where("id = ?", user.Id).Take(&user).Error
+	return user, err
+}
+
+func AddWorkCount(user *User) error {
+	// 获取数据库连接
+	db := dao.GetDB()
+	// 迁移模型
+	db.AutoMigrate(&User{})
+
+	err := db.Where("id = ?", user.Id).Take(&user).Error
+	if err != nil {
+		fmt.Println("更新作品总数时查找用户失败：", err)
+		return err
+	}
+
+	err = db.Model(user).Update("work_count", user.WorkCount + 1).Error
+	if err != nil {
+		fmt.Println("更新作品总数失败：", err)
+		return err
+	}
+	return nil
 }

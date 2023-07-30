@@ -4,7 +4,7 @@
 // - protoc             v4.24.0--rc2
 // source: proto/user.proto
 
-package service
+package userService
 
 import (
 	context "context"
@@ -19,7 +19,7 @@ import (
 const _ = grpc.SupportPackageIsVersion7
 
 const (
-	RegisterService_Register_FullMethodName = "/service.RegisterService/Register"
+	RegisterService_Register_FullMethodName = "/userService.RegisterService/Register"
 )
 
 // RegisterServiceClient is the client API for RegisterService service.
@@ -98,7 +98,7 @@ func _RegisterService_Register_Handler(srv interface{}, ctx context.Context, dec
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
 var RegisterService_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "service.RegisterService",
+	ServiceName: "userService.RegisterService",
 	HandlerType: (*RegisterServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
@@ -111,7 +111,7 @@ var RegisterService_ServiceDesc = grpc.ServiceDesc{
 }
 
 const (
-	LoginService_Login_FullMethodName = "/service.LoginService/Login"
+	LoginService_Login_FullMethodName = "/userService.LoginService/Login"
 )
 
 // LoginServiceClient is the client API for LoginService service.
@@ -190,7 +190,7 @@ func _LoginService_Login_Handler(srv interface{}, ctx context.Context, dec func(
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
 var LoginService_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "service.LoginService",
+	ServiceName: "userService.LoginService",
 	HandlerType: (*LoginServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
@@ -203,7 +203,7 @@ var LoginService_ServiceDesc = grpc.ServiceDesc{
 }
 
 const (
-	UserService_Find_FullMethodName = "/service.UserService/Find"
+	UserService_Find_FullMethodName = "/userService.UserService/Find"
 )
 
 // UserServiceClient is the client API for UserService service.
@@ -282,7 +282,7 @@ func _UserService_Find_Handler(srv interface{}, ctx context.Context, dec func(in
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
 var UserService_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "service.UserService",
+	ServiceName: "userService.UserService",
 	HandlerType: (*UserServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{

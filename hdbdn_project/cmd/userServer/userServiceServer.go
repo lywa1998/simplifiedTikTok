@@ -5,16 +5,16 @@ import (
 	"log"
 	"net"
 
-	"github.com/hdbdn77/simplifiedTikTok/pkg/service"
+	"github.com/hdbdn77/simplifiedTikTok/pkg/userService"
 	"google.golang.org/grpc"
 )
 
 func main() {
 	server := grpc.NewServer()
 
-	service.RegisterRegisterServiceServer(server, service.RegisterService)
-	service.RegisterLoginServiceServer(server, service.LoginService)
-	service.RegisterUserServiceServer(server, service.UserService)
+	userService.RegisterRegisterServiceServer(server, userService.RegisterService)
+	userService.RegisterLoginServiceServer(server, userService.LoginService)
+	userService.RegisterUserServiceServer(server, userService.UserService)
 
 	listener, err := net.Listen("tcp", ":8002")
 	if err != nil {
