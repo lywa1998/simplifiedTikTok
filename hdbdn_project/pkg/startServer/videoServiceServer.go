@@ -1,4 +1,4 @@
-package main
+package startServer
 
 import (
 	"fmt"
@@ -9,7 +9,7 @@ import (
 	"google.golang.org/grpc"
 )
 
-func main() {
+func StartVideoServer() {
 	server := grpc.NewServer()
 
 	videoService.RegisterPublishActionServiceServer(server, videoService.PublishActionService)

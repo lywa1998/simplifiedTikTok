@@ -72,7 +72,7 @@ func FindUserById(user *User) (*User, error) {
 	return user, err
 }
 
-func AddWorkCount(user *User) error {
+func AddWorkCount(user *User) (*User, error) {
 	// 获取数据库连接
 	db := dao.GetDB()
 	// 迁移模型
@@ -81,13 +81,13 @@ func AddWorkCount(user *User) error {
 	err := db.Where("id = ?", user.Id).Take(&user).Error
 	if err != nil {
 		fmt.Println("更新作品总数时查找用户失败：", err)
-		return err
+		return nil, err
 	}
 
 	err = db.Model(user).Update("work_count", user.WorkCount + 1).Error
 	if err != nil {
 		fmt.Println("更新作品总数失败：", err)
-		return err
+		return nil, err
 	}
-	return nil
+	return user, nil
 }

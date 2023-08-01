@@ -11,9 +11,9 @@ import (
 )
 
 func main() {
-	// 1. 新建连接，端口是服务端开放的8002端口
+	// 1. 新建连接，端口是服务端开放的8003端口
 	// 没有证书会报错
-	conn, err := grpc.Dial(":8002", grpc.WithTransportCredentials(insecure.NewCredentials()))
+	conn, err := grpc.Dial(":8003", grpc.WithTransportCredentials(insecure.NewCredentials()))
 	if err != nil {
 		log.Fatal(err)
 	}

@@ -48,7 +48,7 @@ func main() {
 		fmt.Println(err)
 	}
 	user := model.User{Id: 4}
-	err = model.AddWorkCount(&user)
+	_, err = model.AddWorkCount(&user)
 	if err != nil {
 		fmt.Println(err)
 	}
