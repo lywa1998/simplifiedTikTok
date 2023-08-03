@@ -11,9 +11,9 @@ func InitRouter(r *gin.Engine) {
 	// basic apis
 	// apiRouter.GET("/feed/", controller.Feed)
 	
-	// apiRouter.POST("/user/login/", controller.Login)
+	apiRouter.POST("/user/login/", controller.Login)
 	apiRouter.POST("/user/register/", controller.Register)
-	// apiRouter.GET("/user/", controller.UserInfo)
+	apiRouter.GET("/user/", controller.UserInfo)
 	
 	// apiRouter.POST("/publish/action/", controller.Publish)
 	// apiRouter.GET("/publish/list/", controller.PublishList)

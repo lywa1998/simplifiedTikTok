@@ -2,7 +2,6 @@ package clientconnect
 
 import (
 	"github.com/micro/simplifiedTikTok/apiserver/pkg/userservice"
-	// "github.com/micro/simplifiedTikTok/userservice/pkg/userservice"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
 )
