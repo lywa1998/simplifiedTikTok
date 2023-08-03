@@ -7,9 +7,9 @@ import (
 )
 
 var (
-	MySQL = initMySQLConfig("userservice/configs/mysql.yaml")
-	Jwt   = initJwtConfig("userservice/configs/jwt.yaml")
-	Redis = initRedisConfig("userservice/configs/redis.yaml")
+	MySQL = initMySQLConfig("configs/mysql.yaml")
+	Jwt   = initJwtConfig("configs/jwt.yaml")
+	Redis = initRedisConfig("configs/redis.yaml")
 )
 
 type MySQLConfig struct {
