@@ -1,3 +1,6 @@
 go 1.20
 
-use ./hdbdn_project
+use (
+	./hdbdn_project
+	./micro_demo
+)

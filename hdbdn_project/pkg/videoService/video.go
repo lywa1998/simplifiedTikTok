@@ -4,13 +4,10 @@ import (
 	"fmt"
 	"time"
 	"os"
-	"errors"
 	"encoding/json"
 
 	"github.com/hdbdn77/simplifiedTikTok/pkg/model"
 	"github.com/hdbdn77/simplifiedTikTok/pkg/utils"
-	"github.com/hdbdn77/simplifiedTikTok/pkg/dao"
-	"github.com/redis/go-redis/v9"
 )
 
 var PublishActionService = &publishActionService{}
@@ -102,7 +99,7 @@ func (pA *publishActionService) PublishAction(context context.Context, request *
 			fmt.Println("序列化video失败")
 		}
 
-		err = AddVideoToList(jsonStr)
+		err = model.AddVideoToList("video",jsonStr)
 		if err != nil {
 			fmt.Println("添加最新视频失败")
 		}
@@ -125,7 +122,7 @@ func (pL *publishListService) PublishList(context context.Context, request *DouY
 		}, nil
 	}
 
-	videos, err := model.ListVideo(request.UserId)
+	videos, err := model.ListVideoByAuthorId(request.UserId)
 	if err != nil {
 		return &DouYinPublishListResponse{
 			StatusCode: -2,
@@ -180,31 +177,3 @@ func (pA *publishActionService) mustEmbedUnimplementedPublishActionServiceServer
 
 func (pL *publishListService) mustEmbedUnimplementedPublishListServiceServer() {}
 
-func AddVideoToList(jsonStr []byte) error {
-	client := dao.GetClient()
-	ctx := context.Background()
-	// 检查list长度是否超过30
-	len, err := client.LLen(ctx, "video").Result()
-	if err == redis.Nil {
-		// 列表不存在,先创建
-		if _, err := client.RPush(ctx, "video", jsonStr).Result(); err != nil {
-			return errors.New("update video list failed") 
-		}
-	}else if err != nil {
-		return errors.New("update video list failed") 
-	}else {
-		// 如满了,就将左侧最早的删除掉
-		if len >= 30 {
-			if _, err := client.LPop(ctx, "video").Result(); err != nil {
-				return errors.New("update video list failed")
-			}
-		}
-		// 插入新数据
-		if _, err := client.RPush(ctx, "video", jsonStr).Result(); err != nil {
-			return errors.New("update video list failed")
-		}
-
-	}
-
-	return nil
-}

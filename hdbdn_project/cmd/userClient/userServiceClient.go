@@ -25,7 +25,7 @@ func main() {
 	registerResponse, _ := registerServiceClient.Register(context.Background(), &userService.DouYinUserRegisterRequest{Username: "TEST", Password: "TEST"})
 	loginResponse, _ := loginServiceClient.Login(context.Background(), &userService.DouYinUserLoginRequest{Username: "TEST", Password: "TEST"})
 	fmt.Println("token :",loginResponse.Token)
-	userResponse, _ := userServiceClient.Find(context.Background(), &userService.DouYinUserRequest{UserId: 4, Token: loginResponse.Token})
+	userResponse, _ := userServiceClient.Find(context.Background(), &userService.DouYinUserRequest{UserId: 1, Token: loginResponse.Token})
 
 	// fmt.Println("调用gRPC方法成功, StatusCode = ", resp.StatusCode)
 	fmt.Println("注册 :",registerResponse.StatusMsg)

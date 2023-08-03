@@ -1,4 +1,4 @@
-package startServer
+package startserver
 
 import (
 	"fmt"
