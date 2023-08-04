@@ -14,6 +14,7 @@ type Video struct {
 	FavoriteCount int64  `json:"favorite_count,omitempty"`
 	CommentCount  int64  `json:"comment_count,omitempty"`
 	IsFavorite    bool   `json:"is_favorite,omitempty"`
+	Title         string `json:"title,omitempty"`
 }
 
 type Comment struct {
@@ -59,10 +60,27 @@ type MessagePushEvent struct {
 type UserLoginResponse struct {
 	Response
 	UserId int64  `json:"user_id,omitempty"`
-	Token  string `json:"token"`
+	Token  string `json:"token,omitempty"`
 }
 
 type UserResponse struct {
 	Response
 	User User `json:"user"`
+}
+
+// video
+type PublishResponse struct {
+	Response
+}
+
+type PublishListResponse struct {
+	Response
+	VideoList []Video `json:"video_list"`
+}
+
+// feed
+type FeedResponse struct {
+	Response
+	NextTime int64 `json:"next_time,omitempty"`
+	VideoList []Video `json:"video_list"`
 }

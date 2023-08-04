@@ -12,17 +12,47 @@ import (
 )
 
 func Register(c *gin.Context) {
-	username := c.Query("username")
-	password := c.Query("password")
-	registerServiceClient := <- clientconnect.UserRegisterChan
-	registerResponse, err := registerServiceClient.Register(context.Background(), &userservice.DouYinUserRegisterRequest{Username: username, Password: password})
-	clientconnect.UserRegisterChan <- registerServiceClient
+	var userLoginRequest UserLoginRequest
+	err := c.ShouldBindQuery(&userLoginRequest)
 	if err != nil {
-		fmt.Println(err)
+		c.JSON(http.StatusOK, UserLoginResponse{
+			Response: Response{
+				StatusCode: -1,
+				StatusMsg: "用户名或密码输入有误",
+			},
+		})
+		return
 	}
-	if registerResponse == nil {
-		c.JSON(http.StatusOK, gin.H{
-			"message": "register err",
+	if len(userLoginRequest.Username) >32 || len(userLoginRequest.Password) >32 {
+		c.JSON(http.StatusOK, UserLoginResponse{
+			Response: Response{
+				StatusCode: -1,
+				StatusMsg: "用户名或密码长度超过32",
+			},
+		})
+		return
+	}
+
+	registerServiceClient := <- clientconnect.UserRegisterChan
+	registerResponse, err := registerServiceClient.Register(context.Background(), &userservice.DouYinUserRegisterRequest{Username: userLoginRequest.Username, Password: userLoginRequest.Password})
+	clientconnect.UserRegisterChan <- registerServiceClient
+	
+	if (registerResponse == nil) || (err != nil) {
+		fmt.Println(err)
+		c.JSON(http.StatusOK, UserLoginResponse{
+			Response: Response{
+				StatusCode: -1,
+				StatusMsg: "register err",
+			},
+		})
+		return
+	}
+	if registerResponse.StatusCode != 0 {
+		c.JSON(http.StatusOK, UserLoginResponse{
+			Response: Response{
+				StatusCode: registerResponse.StatusCode,
+				StatusMsg: registerResponse.StatusMsg,
+			},
 		})
 		return
 	}
@@ -38,17 +68,38 @@ func Register(c *gin.Context) {
 }
 
 func Login(c *gin.Context) {
-	username := c.Query("username")
-	password := c.Query("password")
-	loginServiceClient := <- clientconnect.UserLoginChan
-	loginResponse, err := loginServiceClient.Login(context.Background(), &userservice.DouYinUserLoginRequest{Username: username, Password: password})
-	clientconnect.UserLoginChan <- loginServiceClient
+	var userLoginRequest UserLoginRequest
+	err := c.ShouldBindQuery(&userLoginRequest)
 	if err != nil {
-		fmt.Println(err)
+		c.JSON(http.StatusOK, UserLoginResponse{
+			Response: Response{
+				StatusCode: -1,
+				StatusMsg: "用户名或密码输入有误",
+			},
+		})
+		return
 	}
-	if loginResponse == nil {
-		c.JSON(http.StatusOK, gin.H{
-			"message": "login err",
+
+	loginServiceClient := <- clientconnect.UserLoginChan
+	loginResponse, err := loginServiceClient.Login(context.Background(), &userservice.DouYinUserLoginRequest{Username: userLoginRequest.Username, Password: userLoginRequest.Password})
+	clientconnect.UserLoginChan <- loginServiceClient
+	
+	if (loginResponse == nil) || (err != nil) {
+		fmt.Println(err)
+		c.JSON(http.StatusOK, UserLoginResponse{
+			Response: Response{
+				StatusCode: -1,
+				StatusMsg: "login err",
+			},
+		})
+		return
+	}
+	if loginResponse.StatusCode != 0 {
+		c.JSON(http.StatusOK, UserLoginResponse{
+			Response: Response{
+				StatusCode: loginResponse.StatusCode,
+				StatusMsg: loginResponse.StatusMsg,
+			},
 		})
 		return
 	}
@@ -63,17 +114,39 @@ func Login(c *gin.Context) {
 }
 
 func UserInfo(c *gin.Context) {
-	userId, _ := strconv.ParseInt(c.Query("user_id"), 10, 64)
-	token := c.Query("token")
-	userServiceClient := <- clientconnect.UserChan
-	userResponse, err := userServiceClient.Find(context.Background(), &userservice.DouYinUserRequest{UserId: userId, Token: token})
-	clientconnect.UserChan <- userServiceClient
+	var userInfoRequest UserInfoRequest
+	err := c.ShouldBindQuery(&userInfoRequest)
 	if err != nil {
-		fmt.Println(err)
+		c.JSON(http.StatusOK, UserResponse{
+			Response: Response{
+				StatusCode: -1,
+				StatusMsg: "用户身份信息输入有误",
+			},
+		})
+		return
 	}
-	if userResponse == nil {
-		c.JSON(http.StatusOK, gin.H{
-			"message": "user info err",
+
+	userId, _ := strconv.ParseInt(userInfoRequest.UserId, 10, 64)
+	userServiceClient := <- clientconnect.UserChan
+	userResponse, err := userServiceClient.Find(context.Background(), &userservice.DouYinUserRequest{UserId: userId, Token: userInfoRequest.Token})
+	clientconnect.UserChan <- userServiceClient
+	
+	if (userResponse == nil) || (err != nil) {
+		fmt.Println(err)
+		c.JSON(http.StatusOK, UserResponse{
+			Response: Response{
+				StatusCode: -1,
+				StatusMsg: "user info err",
+			},
+		})
+		return
+	}
+	if userResponse.StatusCode != 0 {
+		c.JSON(http.StatusOK, UserResponse{
+			Response: Response{
+				StatusCode: userResponse.StatusCode,
+				StatusMsg: userResponse.StatusMsg,
+			},
 		})
 		return
 	}

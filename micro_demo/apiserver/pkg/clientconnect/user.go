@@ -9,10 +9,10 @@ import (
 var UserRegisterChan chan userservice.RegisterServiceClient
 var UserLoginChan chan userservice.LoginServiceClient
 var UserChan chan userservice.UserServiceClient
-var addr = ":8002"
+var userAddr = ":8002"
 
 func init() {
-	conn, _ := grpc.Dial(addr, grpc.WithTransportCredentials(insecure.NewCredentials()))
+	conn, _ := grpc.Dial(userAddr, grpc.WithTransportCredentials(insecure.NewCredentials()))
 	UserRegisterChan = make(chan userservice.RegisterServiceClient, 10)
 	UserLoginChan = make(chan userservice.LoginServiceClient, 10)
 	UserChan = make(chan userservice.UserServiceClient, 10)
