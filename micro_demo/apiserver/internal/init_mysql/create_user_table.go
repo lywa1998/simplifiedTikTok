@@ -11,7 +11,7 @@ import (
 )
 
 var (
-	userTable string = "apiserver/internal/initMySQL/UserTable.sql"
+	userTable string = "internal/init_mysql/UserTable.sql"
 )
 
 func CreateUserTable() {

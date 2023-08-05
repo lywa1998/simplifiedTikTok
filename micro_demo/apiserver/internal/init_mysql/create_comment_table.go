@@ -11,7 +11,7 @@ import (
 )
 
 var (
-	commentTable string = "apiserver/internal/initMySQL/CommentTable.sql"
+	commentTable string = "internal/init_mysql/CommentTable.sql"
 )
 
 func CreateCommentTable() {

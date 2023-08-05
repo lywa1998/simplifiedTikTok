@@ -11,7 +11,7 @@ import (
 )
 
 var (
-	videoTable string = "apiserver/internal/initMySQL/VideoTable.sql"
+	videoTable string = "internal/init_mysql/VideoTable.sql"
 )
 
 func CreateVideoTable() {

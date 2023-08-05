@@ -11,7 +11,7 @@ import (
 )
 
 var (
-	favoriteTable string = "apiserver/internal/initMySQL/FavoriteTable.sql"
+	favoriteTable string = "internal/init_mysql/FavoriteTable.sql"
 )
 
 func CreateFavoriteTable() {
