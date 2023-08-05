@@ -11,7 +11,7 @@ import (
 )
 
 var(
-	favoriteTable  string = "\\initMySQL\\FavoriteTable.sql"
+	favoriteTable  string = "initMySQL/FavoriteTable.sql"
 )
 
 func CreateFavoriteTable() {
@@ -26,7 +26,8 @@ func CreateFavoriteTable() {
 
 	// 读取SQL文件内容
 	abs , _ := filepath.Abs(".")
-	content, err := ioutil.ReadFile(abs + favoriteTable)
+    abs = filepath.Join(abs, favoriteTable)
+	content, err := ioutil.ReadFile(abs)
 	if err != nil {
 		panic(err.Error())
 	}

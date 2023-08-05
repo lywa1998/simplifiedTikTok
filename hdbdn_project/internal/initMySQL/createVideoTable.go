@@ -11,7 +11,7 @@ import (
 )
 
 var(
-	videoTable  string = "\\initMySQL\\VideoTable.sql"
+	videoTable  string = "/initMySQL/VideoTable.sql"
 )
 
 func CreateVideoTable() {
@@ -26,7 +26,8 @@ func CreateVideoTable() {
 
 	// 读取SQL文件内容
 	abs , _ := filepath.Abs(".")
-	content, err := ioutil.ReadFile(abs + videoTable)
+    abs = filepath.Join(abs, videoTable)
+	content, err := ioutil.ReadFile(abs)
 	if err != nil {
 		panic(err.Error())
 	}

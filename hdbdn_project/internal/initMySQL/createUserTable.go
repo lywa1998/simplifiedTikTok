@@ -1,17 +1,19 @@
 package initMySQL
+
 // package main
 
 import (
 	"database/sql"
 	"fmt"
 	"io/ioutil"
-	"strings"
 	"path/filepath"
+	"strings"
+
 	_ "github.com/go-sql-driver/mysql"
 )
 
-var(
-	userTable  string = "\\initMySQL\\UserTable.sql"
+var (
+	userTable string = "initMySQL/UserTable.sql"
 )
 
 func CreateUserTable() {
@@ -25,8 +27,9 @@ func CreateUserTable() {
 	defer db.Close()
 
 	// 读取SQL文件内容
-	abs , _ := filepath.Abs(".")
-	content, err := ioutil.ReadFile(abs + userTable)
+	abs, _ := filepath.Abs(".")
+	abs = filepath.Join(abs, userTable)
+	content, err := ioutil.ReadFile(abs)
 	if err != nil {
 		panic(err.Error())
 	}

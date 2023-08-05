@@ -11,7 +11,7 @@ import (
 )
 
 var(
-	commentTable  string = "\\initMySQL\\CommentTable.sql"
+	commentTable  string = "initMySQL/CommentTable.sql"
 )
 
 func CreateCommentTable() {
@@ -26,7 +26,8 @@ func CreateCommentTable() {
 
 	// 读取SQL文件内容
 	abs , _ := filepath.Abs(".")
-	content, err := ioutil.ReadFile(abs + commentTable)
+    abs = filepath.Join(abs, commentTable)
+	content, err := ioutil.ReadFile(abs)
 	if err != nil {
 		panic(err.Error())
 	}
