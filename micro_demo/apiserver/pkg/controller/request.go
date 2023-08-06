@@ -1,6 +1,6 @@
 package controller
 
-import(
+import (
 	"mime/multipart"
 )
 
@@ -19,11 +19,11 @@ type UserInfoRequest struct {
 	Request
 }
 
-//video request
+// video request
 type PublishRequest struct {
-	Data *multipart.FileHeader `form:"data" binding:"required"`
-	Token string `form:"token" binding:"required"`
-	Title string `form:"title" binding:"required"`
+	Data  *multipart.FileHeader `form:"data" binding:"required"`
+	Token string                `form:"token" binding:"required"`
+	Title string                `form:"title" binding:"required"`
 }
 
 type PublishListRequest struct {
@@ -33,5 +33,9 @@ type PublishListRequest struct {
 // feed request
 type FeedRequest struct {
 	LatestTime string `form:"latest_time"`
-	Token string `form:"token"`
+	Token      string `form:"token"`
+}
+
+// message request
+type MessageChatRequest struct {
 }
