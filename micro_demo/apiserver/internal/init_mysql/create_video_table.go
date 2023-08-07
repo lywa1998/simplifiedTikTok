@@ -10,13 +10,8 @@ import (
 	"strings"
 )
 
-<<<<<<< HEAD:hdbdn_project/internal/initMySQL/createVideoTable.go
-var(
-	videoTable  string = "/initMySQL/VideoTable.sql"
-=======
 var (
 	videoTable string = "internal/init_mysql/VideoTable.sql"
->>>>>>> origin/hdbdn:micro_demo/apiserver/internal/init_mysql/create_video_table.go
 )
 
 func CreateVideoTable() {
@@ -29,13 +24,7 @@ func CreateVideoTable() {
 	defer db.Close()
 
 	// 读取SQL文件内容
-<<<<<<< HEAD:hdbdn_project/internal/initMySQL/createVideoTable.go
-	abs , _ := filepath.Abs(".")
-    abs = filepath.Join(abs, videoTable)
-	content, err := ioutil.ReadFile(abs)
-=======
 	content, err := os.ReadFile(videoTable)
->>>>>>> origin/hdbdn:micro_demo/apiserver/internal/init_mysql/create_video_table.go
 	if err != nil {
 		panic(err.Error())
 	}

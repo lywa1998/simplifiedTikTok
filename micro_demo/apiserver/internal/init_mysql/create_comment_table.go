@@ -10,13 +10,8 @@ import (
 	"strings"
 )
 
-<<<<<<< HEAD:hdbdn_project/internal/initMySQL/createCommentTable.go
-var(
-	commentTable  string = "initMySQL/CommentTable.sql"
-=======
 var (
 	commentTable string = "internal/init_mysql/CommentTable.sql"
->>>>>>> origin/hdbdn:micro_demo/apiserver/internal/init_mysql/create_comment_table.go
 )
 
 func CreateCommentTable() {
@@ -29,13 +24,7 @@ func CreateCommentTable() {
 	defer db.Close()
 
 	// 读取SQL文件内容
-<<<<<<< HEAD:hdbdn_project/internal/initMySQL/createCommentTable.go
-	abs , _ := filepath.Abs(".")
-    abs = filepath.Join(abs, commentTable)
-	content, err := ioutil.ReadFile(abs)
-=======
 	content, err := os.ReadFile(commentTable)
->>>>>>> origin/hdbdn:micro_demo/apiserver/internal/init_mysql/create_comment_table.go
 	if err != nil {
 		panic(err.Error())
 	}

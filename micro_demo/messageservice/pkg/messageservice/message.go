@@ -24,10 +24,14 @@ func (mC *messageChatService) MessageChat(context context.Context, request *DouY
 		}
 	}
 
-	return &DouYinMessageChatResponse{}, nil
+	return &DouYinMessageChatResponse{
+        StatusCode: 0,
+        StatusMsg: "获取消息成功",
+        MessageList: nil,
+    }, nil
 }
 
-func (mA *messageActionService) MEssageAction(context context.Context, request *DouYinMessageActionRequest) (*DouYinMessageActionResponse, error) {
+func (mA *messageActionService) MessageAction(context context.Context, request *DouYinMessageActionRequest) (*DouYinMessageActionResponse, error) {
 
 	return &DouYinMessageActionResponse{
         StatusCode: 0,

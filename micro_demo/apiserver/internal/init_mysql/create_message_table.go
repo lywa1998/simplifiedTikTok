@@ -1,21 +1,19 @@
 package init_mysql
 
-// package main
-
 import (
-	"database/sql"
-	"fmt"
-	_ "github.com/go-sql-driver/mysql"
-	"os"
-	"strings"
+    "database/sql"
+    "fmt"
+    _ "github.com/go-sql-driver/mysql"
+    "os"
+    "strings"
 )
 
 var (
-	favoriteTable string = "internal/init_mysql/FavoriteTable.sql"
+    messageTable string = "internal/init_mysql/messageTable.sql"
 )
 
-func CreateFavoriteTable() {
-	// 连接到MySQL数据库
+func CreateMessageTable() {
+    // 连接到MySQL数据库
 	dsn := fmt.Sprintf("%s:%s@tcp(%s:%d)/%s", mysqlConfig.Username, mysqlConfig.Password, mysqlConfig.Host, mysqlConfig.Port, mysqlConfig.DBName)
 	db, err := sql.Open("mysql", dsn)
 	if err != nil {
@@ -24,7 +22,7 @@ func CreateFavoriteTable() {
 	defer db.Close()
 
 	// 读取SQL文件内容
-	content, err := os.ReadFile(favoriteTable)
+	content, err := os.ReadFile(commentTable)
 	if err != nil {
 		panic(err.Error())
 	}

@@ -1,32 +1,17 @@
-<<<<<<< HEAD:hdbdn_project/internal/initMySQL/createUserTable.go
-package initMySQL
-=======
 package init_mysql
->>>>>>> origin/hdbdn:micro_demo/apiserver/internal/init_mysql/create_user_table.go
 
 // package main
 
 import (
 	"database/sql"
 	"fmt"
-<<<<<<< HEAD:hdbdn_project/internal/initMySQL/createUserTable.go
-	"io/ioutil"
-	"path/filepath"
-	"strings"
-
-=======
->>>>>>> origin/hdbdn:micro_demo/apiserver/internal/init_mysql/create_user_table.go
 	_ "github.com/go-sql-driver/mysql"
 	"os"
 	"strings"
 )
 
 var (
-<<<<<<< HEAD:hdbdn_project/internal/initMySQL/createUserTable.go
-	userTable string = "initMySQL/UserTable.sql"
-=======
 	userTable string = "internal/init_mysql/UserTable.sql"
->>>>>>> origin/hdbdn:micro_demo/apiserver/internal/init_mysql/create_user_table.go
 )
 
 func CreateUserTable() {
@@ -39,13 +24,7 @@ func CreateUserTable() {
 	defer db.Close()
 
 	// 读取SQL文件内容
-<<<<<<< HEAD:hdbdn_project/internal/initMySQL/createUserTable.go
-	abs, _ := filepath.Abs(".")
-	abs = filepath.Join(abs, userTable)
-	content, err := ioutil.ReadFile(abs)
-=======
 	content, err := os.ReadFile(userTable)
->>>>>>> origin/hdbdn:micro_demo/apiserver/internal/init_mysql/create_user_table.go
 	if err != nil {
 		panic(err.Error())
 	}

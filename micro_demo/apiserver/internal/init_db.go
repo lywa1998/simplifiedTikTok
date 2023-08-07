@@ -10,4 +10,5 @@ func main() {
 	init_mysql.CreateVideoTable()
 	init_mysql.CreateCommentTable()
 	init_mysql.CreateFavoriteTable()
+    init_mysql.CreateMessageTable()
 }
