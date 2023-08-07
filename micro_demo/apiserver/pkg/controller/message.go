@@ -1,61 +1,113 @@
 package controller
 
 import (
+	"context"
 	"fmt"
 	"net/http"
-	"strconv"
-	"sync/atomic"
-	"time"
 
 	"github.com/gin-gonic/gin"
+	"github.com/micro/simplifiedTikTok/apiserver/pkg/clientconnect"
+	"github.com/micro/simplifiedTikTok/messageservice/pkg/messageservice"
 )
 
 // MessageAction no practical effect, just check if token is valid
 func MessageAction(c *gin.Context) {
-	var messageChatRequest MessageChatRequest
-	err := c.ShouldBindQuery(&messageChatRequest)
+	var messageActionRequest MessageActionRequest
+	err := c.ShouldBindQuery(&messageActionRequest)
 	if err != nil {
-		c.JSON(http.StatusOK, MessageChatResponse{})
+		c.JSON(http.StatusOK, MessageActionResponse{
+            Response: Response{
+                StatusCode: -1,
+                StatusMsg: "消息发送失败",
+            },
+        })
 	}
-	token := c.Query("token")
-	toUserId := c.Query("to_user_id")
-	content := c.Query("content")
 
-	if user, exist := usersLoginInfo[token]; exist {
-		userIdB, _ := strconv.Atoi(toUserId)
-		chatKey := genChatKey(user.Id, int64(userIdB))
+    messageServiceClient := <- clientconnect.MessageActionChan
+    messageActionResponse, err := messageServiceClient.MessageAction(context.Background(), &messageservice.DouYinMessageActionRequest{
+        Token: messageActionRequest.Token,
+        ToUserId: messageActionRequest.ToUserId,
+        ActionType: messageActionRequest.ActionType,
+        Content: messageActionRequest.Content,
 
-		atomic.AddInt64(&messageIdSequence, 1)
-		curMessage := Message{
-			Id:         messageIdSequence,
-			Content:    content,
-			CreateTime: time.Now().Format(time.Kitchen),
-		}
+    })
+    clientconnect.MessageActionChan <- messageServiceClient
 
-		if messages, exist := tempChat[chatKey]; exist {
-			tempChat[chatKey] = append(messages, curMessage)
-		} else {
-			tempChat[chatKey] = []Message{curMessage}
-		}
-		c.JSON(http.StatusOK, Response{StatusCode: 0})
-	} else {
-		c.JSON(http.StatusOK, Response{StatusCode: 1, StatusMsg: "User doesn't exist"})
+    if (messageActionResponse == nil) || (err != nil) {
+		fmt.Println(err)
+		c.JSON(http.StatusOK, MessageActionResponse{
+			Response: Response{
+				StatusCode: -1,
+				StatusMsg: "register err",
+			},
+		})
+		return
 	}
+	if messageActionResponse.StatusCode != 0 {
+		c.JSON(http.StatusOK, MessageActionResponse{
+			Response: Response{
+				StatusCode: messageActionResponse.StatusCode,
+				StatusMsg: messageActionResponse.StatusMsg,
+			},
+		})
+		return
+	}
+    c.JSON(http.StatusOK, MessageActionResponse{
+        Response: Response{
+            StatusCode: 0,
+            StatusMsg: "消息发送成功",
+        },
+    })
 }
 
 // MessageChat all users have same follow list
 func MessageChat(c *gin.Context) {
-	token := c.Query("token")
-	toUserId := c.Query("to_user_id")
-
-	if user, exist := usersLoginInfo[token]; exist {
-		userIdB, _ := strconv.Atoi(toUserId)
-		chatKey := genChatKey(user.Id, int64(userIdB))
-
-		c.JSON(http.StatusOK, ChatResponse{Response: Response{StatusCode: 0}, MessageList: tempChat[chatKey]})
-	} else {
-		c.JSON(http.StatusOK, Response{StatusCode: 1, StatusMsg: "User doesn't exist"})
+    var messageChatRequest MessageChatRequest
+	err := c.ShouldBindQuery(&messageChatRequest)
+	if err != nil {
+		c.JSON(http.StatusOK, MessageChatResponse{
+            Response: Response{
+                StatusCode: -1,
+                StatusMsg: "消息发送失败",
+            },
+        })
 	}
+
+    messageServiceClient := <- clientconnect.MessageChatChan
+    messageChatResponse, err := messageServiceClient.MessageChat(context.Background(), &messageservice.DouYinMessageChatRequest{
+        Token: messageChatRequest.Token,
+        ToUserId: messageChatRequest.ToUserId,
+        PreMsgTime: messageChatRequest.PreMsgTime,
+    })
+    clientconnect.MessageChatChan <- messageServiceClient
+
+    if (messageChatResponse == nil) || (err != nil) {
+		fmt.Println(err)
+		c.JSON(http.StatusOK, MessageChatResponse{
+			Response: Response{
+				StatusCode: -1,
+				StatusMsg: "register err",
+			},
+		})
+		return
+	}
+	if messageChatResponse.StatusCode != 0 {
+		c.JSON(http.StatusOK, MessageChatResponse{
+			Response: Response{
+				StatusCode: messageChatResponse.StatusCode,
+				StatusMsg: messageChatResponse.StatusMsg,
+			},
+            MessageList: messageChatResponse.MessageList,
+		})
+		return
+	}
+    c.JSON(http.StatusOK, MessageChatResponse{
+        Response: Response{
+            StatusCode: 0,
+            StatusMsg: "消息发送成功",
+        },
+        MessageList: messageChatResponse.MessageList,
+    })
 }
 
 func genChatKey(userIdA int64, userIdB int64) string {

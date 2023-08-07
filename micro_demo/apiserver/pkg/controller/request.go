@@ -38,4 +38,14 @@ type FeedRequest struct {
 
 // message request
 type MessageChatRequest struct {
+    Token string `form:"token" binding:"required"`
+    ToUserId int64 `form:"to_user_id" binding:"required"`
+    PreMsgTime int64 `form:"pre_msg_time" binding:"required"`
+}
+
+type MessageActionRequest struct {
+    Token string  
+    ToUserId int64
+    ActionType int32
+    Content string
 }

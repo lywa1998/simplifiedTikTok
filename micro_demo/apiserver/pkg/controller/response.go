@@ -40,19 +40,10 @@ type User struct {
 
 type Message struct {
 	Id         int64  `json:"id,omitempty"`
+    ToUserId   int64  `json:"to_user_id, omitempty"`
+    FromUserId int64  `json:"from_user_id, omitempty"`
 	Content    string `json:"content,omitempty"`
-	CreateTime string `json:"create_time,omitempty"`
-}
-
-type MessageSendEvent struct {
-	UserId     int64  `json:"user_id,omitempty"`
-	ToUserId   int64  `json:"to_user_id,omitempty"`
-	MsgContent string `json:"msg_content,omitempty"`
-}
-
-type MessagePushEvent struct {
-	FromUserId int64  `json:"user_id,omitempty"`
-	MsgContent string `json:"msg_content,omitempty"`
+	CreateTime int64 `json:"create_time,omitempty"`
 }
 
 // 专属回复
@@ -83,4 +74,14 @@ type FeedResponse struct {
 	Response
 	NextTime int64 `json:"next_time,omitempty"`
 	VideoList []Video `json:"video_list"`
+}
+
+// Message
+type MessageChatResponse struct {
+    Response
+	MessageList []*Message `json:"message_list,omitempty"`
+}
+
+type MessageActionResponse struct {
+    Response
 }

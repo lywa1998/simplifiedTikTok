@@ -28,7 +28,11 @@ func (mC *messageChatService) MessageChat(context context.Context, request *DouY
 }
 
 func (mA *messageActionService) MEssageAction(context context.Context, request *DouYinMessageActionRequest) (*DouYinMessageActionResponse, error) {
-	return &DouYinMessageActionResponse{}, nil
+
+	return &DouYinMessageActionResponse{
+        StatusCode: 0,
+        StatusMsg: "消息发送成功",
+    }, nil
 }
 
 func (mC *messageChatService) mustEmbedUnimplementedMessageChatServiceServer() {}
