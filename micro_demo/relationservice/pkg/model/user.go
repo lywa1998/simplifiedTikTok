@@ -5,7 +5,6 @@ import (
 	"fmt"
 
 	"github.com/micro/simplifiedTikTok/messageservice/pkg/dao"
-	"github.com/micro/simplifiedTikTok/messageservice/pkg/errno"
 	"gorm.io/gorm"
 )
 
@@ -71,19 +70,6 @@ func FindUserById(user *User) (*User, error) {
 	// 查询
 	err := db.Where("id = ?", user.Id).Take(&user).Error
 	return user, err
-}
-
-func QueryUserById(user_id int64) (*User, error) {
-    db := dao.GetDB()
-    var user User
-    if err := db.Where("id = ?", user_id).Find(&user).Error; err != nil {
-        return nil, err
-    }
-    if user == (User{}) {
-        err := errno.UserIsNotExistErr
-        return nil, err
-    }
-    return &user, nil
 }
 
 func AddWorkCount(user *User) (*User, error) {

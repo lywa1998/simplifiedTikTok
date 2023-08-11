@@ -48,11 +48,3 @@ func ParseToken(tokenString string) (*Claims, error) {
 	}
 	return nil, errors.New("invalid token")
 }
-
-func ParseToID(tokenString string) int64 {
-    claims, err := ParseToken(tokenString)
-    if err != nil {
-        return -1
-    }
-    return claims.ID
-}

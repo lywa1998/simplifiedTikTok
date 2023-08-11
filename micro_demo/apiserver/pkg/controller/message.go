@@ -81,33 +81,7 @@ func MessageChat(c *gin.Context) {
     })
     clientconnect.MessageChatChan <- messageServiceClient
 
-    if (messageChatResponse == nil) || (err != nil) {
-		fmt.Println(err)
-		c.JSON(http.StatusOK, MessageChatResponse{
-			Response: Response{
-				StatusCode: -1,
-				StatusMsg: "register err",
-			},
-		})
-		return
-	}
-	if messageChatResponse.StatusCode != 0 {
-		c.JSON(http.StatusOK, MessageChatResponse{
-			Response: Response{
-				StatusCode: messageChatResponse.StatusCode,
-				StatusMsg: messageChatResponse.StatusMsg,
-			},
-            MessageList: messageChatResponse.MessageList,
-		})
-		return
-	}
-    c.JSON(http.StatusOK, MessageChatResponse{
-        Response: Response{
-            StatusCode: 0,
-            StatusMsg: "消息发送成功",
-        },
-        MessageList: messageChatResponse.MessageList,
-    })
+    c.JSON(http.StatusOK, messageChatResponse)
 }
 
 func genChatKey(userIdA int64, userIdB int64) string {
